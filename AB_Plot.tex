@@ -1,0 +1,204 @@
+\documentclass[12pt]{article}
+
+% General
+\usepackage[round]{natbib}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage[section]{placeins}
+\usepackage[hidelinks]{hyperref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage[page]{appendix}
+\usepackage{enumerate}
+\usepackage{epigraph}
+\usepackage{lipsum}
+
+% Tables/Figures
+\usepackage{lscape}
+\usepackage{booktabs}
+\usepackage{rotating}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+
+\usepackage{tikz}
+
+% Math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{dsfont}
+
+\usepackage[ruled,vlined]{algorithm2e}
+\newcommand\algcommstyle[1]{\textit{#1}}
+\SetCommentSty{algcommstyle}
+
+%\doublespacing
+\onehalfspacing
+%\singlespacing
+
+% \numberwithin{equation}{section}
+
+\geometry{paper=letterpaper, margin=1in}
+\captionsetup{font=small}
+
+% Code
+\usepackage{textcomp}
+\usepackage{sourcecodepro}
+\usepackage{listings}
+\definecolor{commentgrey}{gray}{0.45}
+\definecolor{backgray}{gray}{0.96}
+\lstset{
+  basicstyle=\footnotesize\ttfamily, keywordstyle=\footnotesize,
+  backgroundcolor=\color{backgray}, commentstyle=\color{commentgrey},
+  frame=single, rulecolor=\color{backgray}, showstringspaces=false,
+  breakatwhitespace=true, breaklines=true, upquote=true,
+  numbers=left, numberstyle=\footnotesize\color{commentgrey}}
+  
+\DeclareMathOperator*{\CinP}{\overset{P}\rightarrow}
+\DeclareMathOperator*{\CinD}{\overset{D}\rightarrow}
+\DeclareMathOperator*{\CinS}{\overset{a.s}\rightarrow}
+\DeclareMathOperator*{\CinLp}{\overset{L_p}\rightarrow}
+\DeclareMathOperator*{\CinL1}{\overset{L_1}\rightarrow}
+\DeclarePairedDelimiter{\diagfences}{(}{)}
+\newcommand{\diag}{\operatorname{diag}\diagfences}
+
+\DeclareMathOperator*{\mini}{minimize}
+\DeclareMathOperator*{\maxi}{maximize}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\sbt}{\mathrm{subject\; to }}
+
+\newenvironment{myarray}[2][1]
+  {\def\arraystretch{#1}\array{#2}}
+  {\endarray}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% User-defined LaTeX commands
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Corr}{Corr}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\tr}{tr}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\inner}{\langle}{\rangle}
+\newcommand*{\expp}[1]{\exp\left(#1\right)}
+\newcommand*{\foralls}{\ \forall \ }
+\newcommand*{\st}{\text{ s.t. }}
+\newcommand*{\E}{\mathbb E}
+\newcommand*{\R}{\mathbb R}
+\newcommand*{\I}{\mathds{1}}
+\newcommand*{\Prob}{\mathbb P}
+\newcommand*{\convas}[1]{\xrightarrow{#1}}
+\newcommand*{\conv}{\convas{}}
+\newcommand*{\cond}{\;\ifnum\currentgrouptype=16 \middle\fi|\;}
+% \newcommand*{\defeq}{%
+%   \mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand*{\notorth}{\ensuremath{\perp\!\!\!\!\!\!\diagup\!\!\!\!\!\!\perp}}
+\newcommand*{\orth}{\ensuremath{\perp\!\!\!\perp}}
+\newcommand*{\evalat}{\,\big\rvert}
+\newcommand*{\dif}{\,d}
+\newcommand*{\difto}[1]{\,d^#1}
+\newcommand*{\difbot}[1]{\frac{d}{d#1}}
+\newcommand*{\partialbot}[1]{\frac{\partial}{\partial#1}}
+\newcommand*{\m}[1]{\textbf{#1}}
+\newcommand*{\bmath}[1]{\boldsymbol{#1}}
+\newcommand{\ubar}[1]{\text{\b{$#1$}}}
+
+\newcommand*{\yestag}{\addtocounter{equation}{1}\tag{\theequation}}
+\newcommand*{\notaligned}[1]{\noalign{$\displaystyle #1$}}
+
+\newcommand*{\ttilde}{{\raise.17ex\hbox{$\scriptstyle\sim$}}}
+
+\makeatletter
+\newsavebox{\mybox}\newsavebox{\mysim}
+\newcommand*{\distas}[1]{%
+  \savebox{\mybox}{\hbox{\kern3pt$\scriptstyle#1$\kern3pt}}%
+  \savebox{\mysim}{\hbox{$\sim$}}%
+  \mathbin{\overset{#1}{\kern\z@\resizebox{\wd\mybox}{\ht\mysim}{$\sim$}}}%
+}
+\makeatother
+\newcommand*{\dist}{\sim}
+\newcommand*{\distiid}{\distas{\text{i.i.d}}}
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand*{\charfusion}[3][\mathord]{
+  #1{\ifx#1\mathop\vphantom{#2}\fi\mathpalette\mov@rlay{#2\cr#3}}
+  \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+\newcommand*{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand*{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\newcommand*{\mt}[1]{\text{\normalfont #1}}
+\newcommand*{\qqquad}{\hspace{4em}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{theorem*}{Theorem}
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{corollary*}[theorem*]{Corollary}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{proposition*}[theorem*]{Proposition}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{lemma*}[theorem*]{Lemma}
+\newtheorem{condit*}[proposition]{Condition}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{definition*}{Definition}
+\newtheorem{example}{Example}[section]
+\newtheorem*{properties}{Properties}
+\newtheorem*{remark}{Remark}
+
+\newtheoremstyle{algodesc}{}{}{}{}{\bfseries}{.}{ }{}%
+\theoremstyle{algodesc}
+\newtheorem{algodesc}{Algorithm}
+
+\newcommand{\chapquote}[3]{\begin{quotation} \textit{#1} \end{quotation} \begin{flushright} - #2, \textit{#3}\end{flushright} }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand*{\note}[1]{\noindent\textcolor{magenta}{(Note:} #1\textcolor{magenta}{)}}
+\newcommand*{\bbM}{\mathbb{M}}
+\usepackage{array}
+\newcommand{\head}[2]{\multicolumn{1}{>{\centering\arraybackslash}p{#1}}{\textbf{#2}}}
+
+\numberwithin{equation}{section}
+
+
+
+\begin{document}
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Predictor} & \textbf{Decrease in Odds} \\ \midrule
+Female    &   44\%    \\ 
+Age (10 Years)   & 58\%       \\ 
+Below Median Income    & 44\% \\
+Secondary Education    & 66\%  \\
+Basic Education  & 76\% \\
+\bottomrule                                      
+\end{tabular}
+\caption{The change in odds of being an internet user. for a set of five variables. Note that Secondary Education is the change in relation to Higher Education and Basic Education is the change in relation to Secondary Education. }
+\label{tab:predictors}
+\end{table}
+
+\vspace{16cm}
+
+\end{document}
