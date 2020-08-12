@@ -191,7 +191,6 @@ age_change = exp(coefs_model[14]*10) - 1
 #                    secondary_ed_ab5 + higher_ed_ab5 + missing_education_ab5 + somewhat_religious_ab5 + 
 #                    not_religious_ab5 + missing_religious_ab5, data=ab_df5_users,weights = wt,family = binomial)
 
-# calculations for conversion from log odds to odds
 
 
 # plots
