@@ -173,6 +173,9 @@ model_linreg = glm(use_internet_ab5 ~ country + gender_male_ab5 + age_ab5 + age_
                        secondary_ed_ab5 + higher_ed_ab5 + missing_education_ab5 + somewhat_religious_ab5 + 
                        not_religious_ab5 + missing_religious_ab5, data=ab_df_test,weights = wt*norm_weight)
 
+summary(model_linreg)
+
+
 # logistic regression
 model_binomial = glm(use_internet_ab5 ~ country + gender_male_ab5 + age_ab5 + age_missing_ab5 + income_above_ab5 + 
       income_missing_ab5 + rural_ab5 + refugee_ab5 + age_ab5:rural_ab5 + income_above_ab5:rural_ab5 + 
