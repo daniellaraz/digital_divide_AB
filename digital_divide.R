@@ -2,9 +2,12 @@
 library(ggplot2)
 library(reshape2)
 library(dplyr)
+library(haven)
+
 
 # loading data
-#ab_df5 <- read_dta("Documents/ABV_Crossectional_Data_Release_ENG.dta")
+#
+ab_df5 <- read_dta("Documents/ABV_Crossectional_Data_Release_ENG.dta")
 #ab_df5 <- read_dta("ABV_Crossectional_Data_Release_ENG.dta")
 #ab_df4 <- read_dta("ABIV_English.dta")
 ab_df5 = ABV_Crossectional_Data_Release_ENG
@@ -167,15 +170,6 @@ country_weights$country = as.character(country_weights$country)
 
 ab_df_test = left_join(ab_df5,country_weights)
 
-# lin regression
-model_linreg = glm(use_internet_ab5 ~ country + gender_male_ab5 + age_ab5 + age_missing_ab5 + income_above_ab5 + 
-                       income_missing_ab5 + rural_ab5 + refugee_ab5 + age_ab5:rural_ab5 + income_above_ab5:rural_ab5 + 
-                       secondary_ed_ab5 + higher_ed_ab5 + missing_education_ab5 + somewhat_religious_ab5 + 
-                       not_religious_ab5 + missing_religious_ab5, data=ab_df_test,weights = wt*norm_weight)
-
-summary(model_linreg)
-
-
 # logistic regression
 model_binomial = glm(use_internet_ab5 ~ country + gender_male_ab5 + age_ab5 + age_missing_ab5 + income_above_ab5 + 
       income_missing_ab5 + rural_ab5 + refugee_ab5 + age_ab5:rural_ab5 + income_above_ab5:rural_ab5 + 
@@ -194,7 +188,13 @@ age_change = exp(coefs_model[14]*10) - 1
 
 
 
+# lin regression -- to get simpler/clearer percentage point changes as opposed to odds
+model_linreg = glm(use_internet_ab5 ~ country + gender_male_ab5 + age_ab5 + age_missing_ab5 + income_above_ab5 + 
+                     income_missing_ab5 + rural_ab5 + refugee_ab5 + age_ab5:rural_ab5 + income_above_ab5:rural_ab5 + 
+                     secondary_ed_ab5 + higher_ed_ab5 + missing_education_ab5 + somewhat_religious_ab5 + 
+                     not_religious_ab5 + missing_religious_ab5, data=ab_df_test,weights = wt*norm_weight)
 
+summary(model_linreg)
 
 
 
