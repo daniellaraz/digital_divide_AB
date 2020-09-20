@@ -1,12 +1,12 @@
+# Daniella Raz
+
 # library imports
 library(ggplot2)
 library(reshape2)
 library(dplyr)
 library(haven)
 
-
 # loading data
-#
 ab_df5 <- read_dta("Documents/ABV_Crossectional_Data_Release_ENG.dta")
 #ab_df5 <- read_dta("ABV_Crossectional_Data_Release_ENG.dta")
 #ab_df4 <- read_dta("ABIV_English.dta")
@@ -140,7 +140,6 @@ gendw_weighted = gend_w_num$x/gend_w_den[,2]
 gend_weighted_diff = gendm_weighted - gendw_weighted
 
 # weighted age differences ([18-29] = young adults, 60+ = older)
-
 age18 = subset(ab_df5,age_ab5 < 30)
 age60 = subset(ab_df5,age_ab5 >= 60)
 
@@ -157,14 +156,12 @@ age_diff = age18_count - age60_count
 
 # unweighted:
 #age_diff = age18_count$x - age60_count$x
-
 age_diff = cbind(as.numeric(as.character(age18_count$Group.1)),age_diff)
-
 
 # religious vs. not religious
 religious_count = aggregate(ab_df5$use_internet_ab5,by=list(ab_df5$country,ab_df5$religious_ab5),mean)
 
-
+# finalizing dataframe...
 ab_df5$country = as.character(ab_df5$country)
 country_weights$country = as.character(country_weights$country)
 
@@ -179,24 +176,20 @@ model_binomial = glm(use_internet_ab5 ~ country + gender_male_ab5 + age_ab5 + ag
 summary(model_binomial)
 
 # computation for change in odds calculation: 
-# taking log odds converting to odds scale [exp(coefs_model)] and making a percentage [-1]
+# taking log odds converting to odds scale [exp(coefs_model)] and converting to a percentage [-1]
 coefs_model = coef(model_binomial)
 odds_change = exp(coefs_model)-1
 
-### age is put in the regression in units of years, want the coeffs in units of ten-years
+# age is put in the regression in units of years, I want the coeffs in units of ten-years
 age_change = exp(coefs_model[14]*10) - 1
 
-
-
-# lin regression -- to get simpler/clearer percentage point changes as opposed to odds
+# lin regression -- optional to see simpler/clearer percentage point changes as opposed to odds
 model_linreg = glm(use_internet_ab5 ~ country + gender_male_ab5 + age_ab5 + age_missing_ab5 + income_above_ab5 + 
                      income_missing_ab5 + rural_ab5 + refugee_ab5 + age_ab5:rural_ab5 + income_above_ab5:rural_ab5 + 
                      secondary_ed_ab5 + higher_ed_ab5 + missing_education_ab5 + somewhat_religious_ab5 + 
                      not_religious_ab5 + missing_religious_ab5, data=ab_df_test,weights = wt*norm_weight)
 
 summary(model_linreg)
-
-
 
 
 ### optional further work
